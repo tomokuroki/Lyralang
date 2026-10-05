@@ -1,17 +1,19 @@
-# Lyra language website
+# Lyra Language
 
-Static website for the Lyra programming language.
+The Lyra language website, built with React and Vite.
 
-## Run
+## Development
 
-Open `index.html` or run:
-
-```bash
-python -m http.server 8080
+```sh
+npm install
+npm run dev
 ```
 
-Then open `http://localhost:8080`.
+## Production build
 
-## Layout
+```sh
+npm run build
+npm run preview
+```
 
-The site includes a desktop layout and responsive tablet/mobile layouts.
+The interactive playground and documentation are implemented in `src/`.
