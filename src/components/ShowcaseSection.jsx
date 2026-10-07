@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Music, Disc3, Sparkles } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 
 const TRACKS = [
   {
@@ -7,7 +7,6 @@ const TRACKS = [
     title: 'Last Goodbye',
     subtitle: 'Composed & synthesized entirely in Lyra',
     src: '/audio/last_goodbye_style_lyra.mp3',
-    genre: 'Synth / Cinematic',
     note: 'Multi-track arrangement with polyphonic pads, bassline, and procedural percussion.'
   },
   {
@@ -15,7 +14,6 @@ const TRACKS = [
     title: 'Space Oddity (Preview)',
     subtitle: 'Full score synthesized from plain text code',
     src: '/audio/space_oddity_lyra_preview.mp3',
-    genre: 'Acoustic / Polyphony',
     note: 'Demonstrating physical instrument modeling, spatial reverb diffusion, and dynamic tempo changes.'
   }
 ];
@@ -79,71 +77,49 @@ function AudioTrackCard({ track, isCurrent, isPlaying, onTogglePlay }) {
 
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
+  const waveBars = [22, 46, 30, 70, 42, 82, 54, 36, 64, 88, 48, 74, 34, 58, 28, 78, 50, 92, 38, 66, 44, 84, 56, 32, 72, 48, 62, 26, 52, 40, 68, 30];
+
   return (
-    <div className={`p-6 rounded-xl border transition-all ${
-      isCurrent && isPlaying 
-        ? 'bg-[#0e0e0e] border-white/[0.2] shadow-2xl' 
-        : 'bg-[#0a0a0a] border-white/[0.08] hover:border-white/[0.14]'
-    }`}>
+    <article className={`audio-track-card ${isCurrent && isPlaying ? 'is-playing' : ''}`}>
       <audio ref={audioRef} src={track.src} preload="metadata" />
 
-      {/* Top info */}
-      <div className="flex items-start justify-between gap-4 mb-4">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => onTogglePlay(!isPlaying)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all active:scale-95 shrink-0 ${
-              isCurrent && isPlaying
-                ? 'bg-white text-black border-white shadow-lg shadow-white/10'
-                : 'bg-white/[0.04] hover:bg-white/[0.1] text-white border-white/[0.1] hover:border-white/[0.2]'
-            }`}
-            title={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isCurrent && isPlaying ? (
-              <Pause className="w-3.5 h-3.5 fill-current" />
-            ) : (
-              <Play className="w-3.5 h-3.5 fill-current" />
-            )}
-          </button>
-          <div>
-            <h3 className="text-base font-semibold text-white tracking-tight flex items-center gap-2">
-              <span>{track.title}</span>
-              {isCurrent && isPlaying && (
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              )}
-            </h3>
-            <p className="text-xs text-neutral-400 mt-0.5 font-normal">
-              {track.subtitle}
-            </p>
+      <div className="track-card-copy">
+        <h3>{track.title}</h3>
+        <p>{track.subtitle}</p>
+      </div>
+
+      <div className="track-waveform" aria-hidden="true">
+        {waveBars.map((height, barIndex) => (
+          <span key={barIndex} style={{ height: `${height}%` }} />
+        ))}
+      </div>
+
+      <p className="track-note">{track.note}</p>
+
+      <div className="track-controls">
+        <button
+          onClick={() => onTogglePlay(!isPlaying)}
+          className="track-play-button"
+          title={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isCurrent && isPlaying ? (
+            <Pause className="w-4 h-4 fill-current" />
+          ) : (
+            <Play className="w-4 h-4 fill-current" />
+          )}
+        </button>
+
+        <div className="track-timeline">
+          <div className="track-scrubber" onClick={handleSeek}>
+            <div className="track-progress" style={{ width: `${progressPct}%` }} />
+          </div>
+          <div className="track-time">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
           </div>
         </div>
-
-        <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-white/[0.08] bg-white/[0.02] text-neutral-400 shrink-0">
-          {track.genre}
-        </span>
       </div>
-
-      <p className="text-xs text-neutral-400 leading-relaxed mb-5">
-        {track.note}
-      </p>
-
-      {/* Scrubber / Progress bar */}
-      <div className="space-y-1.5">
-        <div
-          onClick={handleSeek}
-          className="h-1.5 w-full bg-white/[0.08] hover:bg-white/[0.12] rounded-full overflow-hidden cursor-pointer relative"
-        >
-          <div
-            className="h-full bg-white transition-all duration-100 rounded-full"
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
-        <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-      </div>
-    </div>
+    </article>
   );
 }
 
@@ -174,10 +150,6 @@ export default function ShowcaseSection() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>Procedural Audio Synthesis</span>
-          </div>
         </div>
 
         {/* 2 Track Cards */}

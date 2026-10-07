@@ -21,7 +21,7 @@ Version 1.0
 
 8. By copying, installing or otherwise using the Software, Licensee agrees to be bound by the terms and conditions of this License Agreement.`;
 
-export default function Footer({ onOpenDocs, onScrollToInstaller, onScrollToPlayground }) {
+export default function Footer({ onOpenDocs, onScrollToInstaller }) {
   const [showLicenseModal, setShowLicenseModal] = useState(false);
 
   return (
@@ -54,17 +54,9 @@ export default function Footer({ onOpenDocs, onScrollToInstaller, onScrollToPlay
                 <a href="#overview" className="hover:text-white transition-colors">Overview</a>
               </li>
               <li>
-                <button onClick={onScrollToPlayground} className="hover:text-white transition-colors">
-                  Web Studio
-                </button>
-              </li>
-              <li>
                 <button onClick={onScrollToInstaller} className="hover:text-white transition-colors">
                   Windows Installer
                 </button>
-              </li>
-              <li>
-                <a href="#sound-modes" className="hover:text-white transition-colors">Sound Modes</a>
               </li>
               <li>
                 <a href="#architecture" className="hover:text-white transition-colors">Architecture</a>

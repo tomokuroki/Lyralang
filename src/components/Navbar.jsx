@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Download, ExternalLink, Menu, X, ChevronDown, Terminal, Cpu, BookOpen, Music, Play, Layers, Disc3 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Download, ExternalLink, Menu, X, ChevronDown, Terminal, Cpu, BookOpen, Music, Disc3 } from 'lucide-react';
 import { INSTALLER_SPECS } from '../data/docsData';
 
 const NAV_GROUPS = [
@@ -8,8 +8,6 @@ const NAV_GROUPS = [
     items: [
       { label: 'Overview', href: '#overview', desc: 'The declarative music programming language', icon: Music },
       { label: 'Showcase', href: '#showcase', desc: 'Listen to tracks composed purely in Lyra', icon: Disc3 },
-      { label: 'Web Studio', scroll: 'playground', desc: 'Interactive browser-based DSP synthesizer', icon: Play },
-      { label: 'Sound Modes', href: '#sound-modes', desc: 'From 4-bit vintage chips to 32-bit modern float', icon: Layers },
       { label: 'Architecture', href: '#architecture', desc: 'Lexer, Parser, Audio Engine & Export', icon: Cpu },
     ]
   },
@@ -31,7 +29,7 @@ const NAV_GROUPS = [
   }
 ];
 
-export default function Navbar({ onOpenDocs, onScrollToPlayground, onScrollToInstaller }) {
+export default function Navbar({ onOpenDocs, onScrollToInstaller }) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuTimeoutRef = useRef(null);
@@ -51,7 +49,6 @@ export default function Navbar({ onOpenDocs, onScrollToPlayground, onScrollToIns
     setActiveMenu(null);
     setMobileOpen(false);
     if (target === 'docs') onOpenDocs();
-    else if (target === 'playground') onScrollToPlayground();
     else if (target === 'installer') onScrollToInstaller();
   };
 
@@ -172,12 +169,6 @@ export default function Navbar({ onOpenDocs, onScrollToPlayground, onScrollToIns
               );
             })}
 
-            <button
-              onClick={onOpenDocs}
-              className="px-3 py-1.5 text-xs font-medium text-neutral-400 hover:text-white rounded-md transition-colors"
-            >
-              Docs
-            </button>
           </nav>
         </div>
 

@@ -199,9 +199,9 @@ export default function DocsSection() {
                 <button
                   key={sec.id}
                   onClick={() => setSelectedId(sec.id)}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
+                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-between outline-none ${
                     active
-                      ? 'bg-white/[0.08] text-white border border-white/[0.08]'
+                      ? 'bg-white/[0.08] text-white'
                       : 'text-neutral-400 hover:text-white hover:bg-white/[0.03]'
                   }`}
                 >
